@@ -10,8 +10,8 @@ export const school = {
   phone: "01719-512515",
   email: "1999rnb@gmail.com",
   officeHours: "8am to 7pm, Monday to Saturday",
-  principal: { name: "[Principal Name]", role: "Principal / Head Teacher" },
-  director: { name: "[Director Name]", role: "Director" },
+  principal: { name: "MD Mahbubur Rahman Chowdhury", role: "Managing Director" },
+  director: { name: "MD Mahbubur Rahman Chowdhury", role: "Managing Director" },
   mission:
     "To nurture curious, capable and considerate learners through purposeful education and a disciplined, welcoming environment.",
   vision:
