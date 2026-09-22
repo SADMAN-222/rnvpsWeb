@@ -20,6 +20,13 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const textNodes: Text[] = [];
+    let node: Node | null;
+    while ((node = walker.nextNode())) textNodes.push(node as Text);
+    textNodes.forEach(textNode => { textNode.nodeValue = textNode.nodeValue?.replaceAll("Biddiyapith", "Bidyapith") ?? ""; });
+  }, []);
+  useEffect(() => {
     const handleContactClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const contact = target.closest<HTMLElement>(".topcontact, .footercontact");
@@ -32,7 +39,7 @@ export function SiteHeader() {
     document.addEventListener("click", handleContactClick);
     return () => document.removeEventListener("click", handleContactClick);
   }, []);
-  return <><div className="topline"><div className="shell topinner"><span>EST. {school.established} <b>•</b> Raniganj National Biddiyapith</span><span className="topcontact"><Phone size={13} /> {school.phone}<b>•</b><Mail size={13} /> {school.email}</span></div></div><header className="header"><div className="shell navinner"><Link href="/" className="brand" onClick={() => setOpen(false)}><SchoolLogo /><span><strong>Raniganj National</strong><small>Biddiyapith <i>Since 1999</i></small></span></Link><nav className="desktopnav">{navItems.map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} title={`Go to ${label}`}>{label}</Link>)}</nav><Link className={`login ${pathname === "/result" ? "active" : ""}`} href="/result" title="Go to student results">Student login <ArrowUpRight size={15} /></Link><button className="menubutton" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</button></div>{open && <nav className="mobilenav">{navItems.map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} onClick={() => setOpen(false)}>{label}<span>Open {label} page <ArrowUpRight size={15} /></span></Link>)}</nav>}</header></>;
+  return <><div className="topline"><div className="shell topinner"><span>EST. {school.established} <b>•</b> Raniganj National Bidyapith</span><span className="topcontact"><Phone size={13} /> {school.phone}<b>•</b><Mail size={13} /> {school.email}</span></div></div><header className="header"><div className="shell navinner"><Link href="/" className="brand" onClick={() => setOpen(false)}><SchoolLogo /><span><strong>Raniganj National</strong><small>Bidyapith <i>Since 1999</i></small></span></Link><nav className="desktopnav">{navItems.map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} title={`Go to ${label}`}>{label}</Link>)}</nav><Link className={`login ${pathname === "/result" ? "active" : ""}`} href="/result" title="Go to student results">Student login <ArrowUpRight size={15} /></Link><button className="menubutton" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</button></div>{open && <nav className="mobilenav">{navItems.map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} onClick={() => setOpen(false)}>{label}<span>Open {label} page <ArrowUpRight size={15} /></span></Link>)}</nav>}</header></>;
 }
 
 export function Footer() {
