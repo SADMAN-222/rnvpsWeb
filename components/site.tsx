@@ -13,7 +13,7 @@ const heroImages = Array.from({ length: 10 }, (_, index) => `/hero/hero-${index 
 
 function SchoolLogo() {
   const [loaded, setLoaded] = useState(true);
-  return loaded ? <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Biddiyapith logo" width={48} height={48} onError={() => setLoaded(false)} /> : <span className="crest">R<span>N</span>B</span>;
+  return loaded ? <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} onError={() => setLoaded(false)} /> : <span className="crest">R<span>N</span>B</span>;
 }
 
 export function SiteHeader() {

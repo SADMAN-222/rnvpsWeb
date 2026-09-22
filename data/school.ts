@@ -1,5 +1,5 @@
 export const school = {
-  name: "Raniganj National Biddiyapith",
+  name: "Raniganj National Bidyapith",
   shortName: "RNB",
   established: "1999",
   tagline: "Knowledge, discipline and humanity",
