@@ -1,0 +1,5 @@
+"use client";
+import { useState } from "react";
+import { PageFrame } from "@/components/site";
+
+export default function ResultPage() { const [searched, setSearched] = useState(false); return <PageFrame eyebrow="Student services" title="Results, when they are ready." intro="A future result service will connect here. No student data or results are fabricated in this public phase."><form className="contactform" onSubmit={event => { event.preventDefault(); setSearched(true); }}><label>Student ID<input required placeholder="Enter student ID" /></label><label>Examination<select required defaultValue=""><option value="" disabled>Select examination</option><option>Annual examination</option><option>Term examination</option></select></label><label>Year<select required defaultValue=""><option value="" disabled>Select year</option><option>2026</option><option>2025</option></select></label><button className="button buttondark">Search result</button></form>{searched && <div className="success"><h3>Result service will be available soon.</h3><p>There is no connected result database yet.</p></div>}</PageFrame>; }

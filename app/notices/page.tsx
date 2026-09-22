@@ -1,0 +1,7 @@
+"use client";
+import { useState } from "react";
+import { PageFrame } from "@/components/site";
+import { notices, type Notice } from "@/data/content";
+import { ArrowUpRight, X } from "lucide-react";
+
+export default function NoticesPage() { const [selected, setSelected] = useState<Notice | null>(null); const [query, setQuery] = useState(""); const filtered = notices.filter(notice => `${notice.title} ${notice.category}`.toLowerCase().includes(query.toLowerCase())); return <PageFrame eyebrow="Stay informed" title="Notices, made clear." intro="Verified school updates, gathered in one place."><input className="noticefilter" placeholder="Search notices" value={query} onChange={event => setQuery(event.target.value)} /><div className="noticegrid">{filtered.map(notice => <article className="notice" key={notice.id}><div className="noticedate"><strong>{notice.date.split(" ")[0]}</strong><span>{notice.date.split(" ")[1]}</span></div><div><span className="tag">{notice.category}</span><h3>{notice.title}</h3><p>{notice.summary}</p><button className="textlink" onClick={() => setSelected(notice)}>Open full notice <ArrowUpRight size={15} /></button></div></article>)}</div>{selected && <div className="modalbackdrop" onClick={() => setSelected(null)}><div className="modal" onClick={event => event.stopPropagation()}><button className="closebutton" onClick={() => setSelected(null)} aria-label="Close"><X /></button><span className="eyebrow">{selected.category} · {selected.date}</span><h2>{selected.title}</h2><p>{selected.content}</p></div></div>}</PageFrame>; }
