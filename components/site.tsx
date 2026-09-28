@@ -21,9 +21,9 @@ export function SiteHeader() {
     <header className="header"><div className="shell navinner">
       <Link href="/" className="brand" onClick={() => setOpen(false)}><SchoolLogo /><span><strong>Raniganj National</strong><small>Bidyapith <i>Since 1999</i></small></span></Link>
       <nav className="desktopnav" aria-label="Main navigation">{navItems.map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href}>{label}</Link>)}</nav>
-      <Link className={`login ${pathname === "/student-services" ? "active" : ""}`} href="/student-services">Student services <ArrowUpRight size={15} /></Link>
+      <Link className={`login ${pathname === "/login" ? "active" : ""}`} href="/login">Login to Portal <ArrowUpRight size={15} /></Link>
       <button className="menubutton" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label="Toggle navigation">{open ? <X /> : <Menu />}</button>
-    </div>{open && <nav id="mobile-navigation" className="mobilenav" aria-label="Mobile navigation">{[...navItems, ["Student services", "/student-services"] as const].map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} onClick={() => setOpen(false)}>{label}<ArrowUpRight size={15} /></Link>)}</nav>}</header>
+    </div>{open && <nav id="mobile-navigation" className="mobilenav" aria-label="Mobile navigation">{[...navItems, ["Login to Portal", "/login"] as const].map(([label, href]) => <Link className={pathname === href ? "active" : ""} key={href} href={href} onClick={() => setOpen(false)}>{label}<ArrowUpRight size={15} /></Link>)}</nav>}</header>
   </>;
 }
 
