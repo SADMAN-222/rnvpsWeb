@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, ReactNode, CSSProperties } from 'react';
+import { useEffect, useRef, ReactNode, CSSProperties, ElementType } from 'react';
 
 type Variant = 'up' | 'left' | 'scale';
 
@@ -34,7 +34,7 @@ export function AnimateIn({
   delay?: number;
   stagger?: boolean;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   style?: CSSProperties;
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -80,7 +80,6 @@ export function AnimateIn({
     ? { transitionDelay: `${delay}ms`, ...style }
     : (style ?? {});
 
-  // @ts-expect-error dynamic tag
   return (
     <Tag
       ref={ref}
