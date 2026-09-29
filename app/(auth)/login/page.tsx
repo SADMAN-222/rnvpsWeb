@@ -1,6 +1,9 @@
+'use client'
+import { useActionState } from 'react'
 import { login } from './actions'
 
 export default function LoginPage() {
+  const [state, formAction] = useActionState(login, null)
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
@@ -8,7 +11,10 @@ export default function LoginPage() {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
           <p className="mt-2 text-sm text-gray-600">School Management Portal</p>
         </div>
-        <form className="mt-8 space-y-6" action={login}>
+        {state?.error && (
+          <p className="text-red-500 text-sm text-center">{state.error}</p>
+        )}
+        <form className="mt-8 space-y-6" action={formAction}>
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
               <label htmlFor="email" className="sr-only">Email address</label>
