@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,6 +13,57 @@ const navItems = [["About", "/about"], ["Academics", "/academic"], ["Admission",
 const heroImages = ["/hero/hero-1.jpg", "/hero/hero-2.jpg", "/hero/hero-3.jpg"];
 
 function SchoolLogo() { return <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} />; }
+
+function ScrollReveal({ children, delay = 0, y = 20, direction = "up" }: { children: React.ReactNode; delay?: number; y?: number; direction?: "up" | "down" | "left" | "right" }) {
+  const ref = useRef(null);
+  // Reduced margin to be more sensitive for scroll triggering
+  const isInView = useInView(ref, { once: false, margin: "-50px" });
+  const xOffset = direction === "left" ? -60 : direction === "right" ? 60 : 0;
+  const yOffset = direction === "up" ? 20 : direction === "down" ? -20 : 0;
+  
+  return (
+    <motion.div
+      ref={ref}
+      className="scroll-reveal-item"
+      initial={{ opacity: 0, y: yOffset, x: xOffset }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: yOffset, x: xOffset }}
+      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function TypingText({ texts }: { texts: string[] }) {
+  const [index, setIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const speed = isDeleting ? 50 : 100;
+
+  useEffect(() => {
+    console.log("TypingText running, displayText:", displayText);
+    const handleTyping = () => {
+      const currentFullText = texts[index % texts.length];
+      if (isDeleting) {
+        setDisplayText(currentFullText.substring(0, displayText.length - 1));
+      } else {
+        setDisplayText(currentFullText.substring(0, displayText.length + 1));
+      }
+
+      if (!isDeleting && displayText === currentFullText) {
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && displayText === "") {
+        setIsDeleting(false);
+        setIndex(index + 1);
+      }
+    };
+
+    const timer = setTimeout(handleTyping, speed);
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, index, texts, speed]);
+
+  return <span className="typing-text">{displayText}<span className="cursor">|</span></span>;
+}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -43,8 +95,154 @@ function NoticeModal({ notice, close }: { notice: Notice; close: () => void }) {
 
 function NoticeBoard() { const [selected, setSelected] = useState<Notice | null>(null); return <section className="section notices"><div className="shell"><div className="splitheading"><SectionTitle eyebrow="Stay informed" title="Official notices" text="Verified updates from the school office." /><Link className="textlink" href="/notices">All notices <ArrowUpRight size={16} /></Link></div><div className="noticegrid">{notices.slice(0, 3).map(notice => <article className="notice" key={notice.id}><div className="noticedate"><strong>{notice.date.split(" ")[0]}</strong><span>{notice.date.split(" ")[1]}</span></div><div><span className="tag">{notice.category}</span><h3>{notice.title}</h3><p>{notice.summary}</p><button className="textlink" onClick={() => setSelected(notice)}>Read notice <ArrowUpRight size={15} /></button></div></article>)}</div></div>{selected && <NoticeModal notice={selected} close={() => setSelected(null)} />}</section>; }
 
-export function HomePage() { return <><SiteHeader /><main><section className="hero"><HeroCarousel /><div className="shell herocontent"><span className="heroeyebrow">A place to begin well <b>EST. 1999</b></span><h1>Education with <em>purpose.</em><br />Character with <em>care.</em></h1><p>{school.taglineBn}<br /><span>{school.description}</span></p><div className="heroactions"><Link className="button buttongold" href="/admission">Admission guidance <ArrowUpRight size={17} /></Link><Link className="herolink" href="/contact">Contact school office <ArrowUpRight size={16} /></Link></div></div><div className="herostamp">RNB<br /><span>Since</span> 1999</div></section><section className="section about"><div className="shell aboutgrid"><div className="aboutvisual"><div className="yearmark">EST.<small>1999</small></div><div className="photo photoone" /><div className="phototag">A school is<br /><b>people in progress.</b></div></div><div className="aboutcopy"><SectionTitle eyebrow="Our foundation" title="A thoughtful place to grow." text="A learning community shaped by knowledge, discipline and humanity." /><p>Discover the school’s story, values and official information in one clear place.</p><Link className="button buttonoutline" href="/about">Read our story <ArrowUpRight size={17} /></Link></div></div></section><section className="heritage"><div className="shell heritagegrid"><SectionTitle eyebrow="A continuing journey" title="Established in 1999." text="A community of learners, families and educators." light /><div className="timeline"><div><strong>1999</strong><span>School established</span></div><i /><div><strong>Today</strong><span>Growing with our community</span></div><i /><div><strong>Next</strong><span>Learning with purpose</span></div></div></div></section><NoticeBoard /><section className="section academics"><div className="shell"><div className="splitheading"><SectionTitle eyebrow="Learning, by design" title="Academic life" text="Explore the school’s academic structure and published resources." /><Link className="textlink" href="/academic">Explore academics <ArrowUpRight size={16} /></Link></div><div className="programgrid">{programs.filter(program => program.label !== "Future pathways").map((program, index) => <article className={`program program${index + 1}`} key={program.label}><span className="programnumber">0{index + 1}</span><span className="tag">{program.label}</span><h3>{program.title}</h3><p>{program.description}</p><div className="chips">{program.subjects.map(subject => <span key={subject}>{subject}</span>)}</div></article>)}</div></div></section><section className="section values"><div className="shell"><SectionTitle eyebrow="What we value" title="The everyday work of becoming." /><div className="valuegrid">{values.map(([number, title, text]) => <div className="value" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></div>)}</div></div></section><section className="section events"><div className="shell"><div className="splitheading"><SectionTitle eyebrow="School life" title="Events and activities" text="The school office will publish confirmed dates and details here." /><Link className="textlink" href="/events">View events <ArrowUpRight size={16} /></Link></div><div className="eventlist">{events.slice(0, 3).map(event => <article key={event.id}><div className="eventdate"><strong>{event.date.split("-")[2]}</strong><span>{event.month}</span></div><div><h3>{event.title}</h3><p><MapPin size={14} /> {event.location}</p></div></article>)}</div></div></section><section className="closing"><div className="shell closinginner"><div><span className="eyebrow">The next chapter starts here</span><h2>Come and see what<br /><em>learning can feel like.</em></h2></div><Link className="button buttongold" href="/contact">Contact office <ArrowUpRight size={17} /></Link></div></section></main><Footer /></>; }
+export function HomePage() { return <>
+  <SiteHeader />
+  <main>
+    <section className="hero">
+      <HeroCarousel />
+      <div className="shell herocontent">
+        <motion.span 
+          className="heroeyebrow"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          A place to begin well <b>EST. 1999</b>
+        </motion.span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          Education with <em>purpose.</em><br />Character with <em>care.</em>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <TypingText texts={[school.taglineBn, school.description]} />
+        </motion.p>
+        <motion.div 
+          className="heroactions"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <Link className="button buttongold" href="/admission">Admission guidance <ArrowUpRight size={17} /></Link>
+          <Link className="herolink" href="/contact">Contact school office <ArrowUpRight size={16} /></Link>
+        </motion.div>
+      </div>
+      <div className="herostamp">RNB<br /><span>Since</span> 1999</div>
+    </section>
 
-export function PageFrame({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro: string; children: React.ReactNode }) { return <><SiteHeader /><main className="innerpage"><div className="shell pagehero"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{intro}</p></div><div className="shell pagebody">{children}</div></main><Footer /></>; }
+    <section className="section about">
+      <div className="shell aboutgrid">
+        <ScrollReveal direction="left">
+          <div className="aboutvisual">
+            <div className="yearmark">EST.<small>1999</small></div>
+            <div className="photo photoone" />
+            <div className="phototag">A school is<br /><b>people in progress.</b></div>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.2}>
+          <div className="aboutcopy">
+            <SectionTitle eyebrow="Our foundation" title="A thoughtful place to grow." text="A learning community shaped by knowledge, discipline and humanity." />
+            <p>Discover the school’s story, values and official information in one clear place.</p>
+            <Link className="button buttonoutline" href="/about">Read our story <ArrowUpRight size={17} /></Link>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+
+    <ScrollReveal direction="up">
+      <section className="heritage">
+        <div className="shell heritagegrid">
+          <SectionTitle eyebrow="A continuing journey" title="Established in 1999." text="A community of learners, families and educators." light />
+          <div className="timeline">
+            <div><strong>1999</strong><span>School established</span></div>
+            <i />
+            <div><strong>Today</strong><span>Growing with our community</span></div>
+            <i />
+            <div><strong>Next</strong><span>Learning with purpose</span></div>
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+    <NoticeBoard />
+
+    <ScrollReveal direction="up">
+      <section className="section academics">
+        <div className="shell">
+          <div className="splitheading">
+            <SectionTitle eyebrow="Learning, by design" title="Academic life" text="Explore the school’s academic structure and published resources." />
+            <Link className="textlink" href="/academic">Explore academics <ArrowUpRight size={16} /></Link>
+          </div>
+          <div className="programgrid">
+            {programs.filter(program => program.label !== "Future pathways").map((program, index) => <article className={`program program${index + 1}`} key={program.label}><span className="programnumber">0{index + 1}</span><span className="tag">{program.label}</span><h3>{program.title}</h3><p>{program.description}</p><div className="chips">{program.subjects.map(subject => <span key={subject}>{subject}</span>)}</div></article>)}
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+    <ScrollReveal direction="up">
+      <section className="section values">
+        <div className="shell">
+          <SectionTitle eyebrow="What we value" title="The everyday work of becoming." />
+          <div className="valuegrid">
+            {values.map(([number, title, text]) => <div className="value" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></div>)}
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+    <ScrollReveal direction="up">
+      <section className="section events">
+        <div className="shell">
+          <div className="splitheading">
+            <SectionTitle eyebrow="School life" title="Events and activities" text="The school office will publish confirmed dates and details here." />
+            <Link className="textlink" href="/events">View events <ArrowUpRight size={16} /></Link>
+          </div>
+          <div className="eventlist">
+            {events.slice(0, 3).map(event => <article key={event.id}><div className="eventdate"><strong>{event.date.split("-")[2]}</strong><span>{event.month}</span></div><div><h3>{event.title}</h3><p><MapPin size={14} /> {event.location}</p></div></article>)}
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+
+    <ScrollReveal direction="up">
+      <section className="closing">
+        <div className="shell closinginner">
+          <div><span className="eyebrow">The next chapter starts here</span><h2>Come and see what<br /><em>learning can feel like.</em></h2></div>
+          <Link className="button buttongold" href="/contact">Contact office <ArrowUpRight size={17} /></Link>
+        </div>
+      </section>
+    </ScrollReveal>
+  </main>
+  <Footer />
+</>; }
+
+export function PageFrame({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro: string; children: React.ReactNode }) { 
+  return (
+    <>
+      <SiteHeader />
+      <motion.main 
+        className="innerpage"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+      >
+        <div className="shell pagehero">
+          <span className="eyebrow">{eyebrow}</span>
+          <h1>{title}</h1>
+          <p>{intro}</p>
+        </div>
+        <div className="shell pagebody">{children}</div>
+      </motion.main>
+      <Footer />
+    </>
+  );
+}
 export function EmptyState({ title, children }: { title: string; children: React.ReactNode }) { return <section className="emptycontent"><h2>{title}</h2><p>{children}</p></section>; }
 export function ContactForm() { return <EmptyState title="Online enquiry is being prepared">To contact the school today, please call or email the school office using the verified details on this page.</EmptyState>; }
