@@ -1,6 +1,6 @@
 export const school = {
   name: "Raniganj National Bidyapith",
-  nameBn: "রাণীগঞ্জ ন্যাশনাল বিদ্যাপীঠ",
+  nameBn: "রানীগঞ্জ ন্যাশনাল বিদ্যাপীঠ",
   shortName: "RNB",
   established: "1999",
   eiin: "[Pending School Confirmation]",
@@ -14,7 +14,7 @@ export const school = {
   officeHours: "8:00 AM – 4:00 PM, Saturday – Thursday (Office)",
   whatsapp: "", // Pending official number
   socials: {
-    facebook: "", // Pending official link
+    facebook: "https://www.facebook.com/p/Ranigonj-National-BidyapithDinajpur-100063935141541/",
     youtube: "", // Pending official link
   },
   mapsUrl: "", // Pending official location confirmation

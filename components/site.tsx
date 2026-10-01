@@ -80,7 +80,9 @@ export function SiteHeader() {
 }
 
 export function Footer() { return <footer className="footer"><div className="shell footergrid">
-  <div><Link href="/" className="brand footerbrand"><SchoolLogo /><span><strong>Raniganj National</strong><small>Bidyapith <i>Since 1999</i></small></span></Link><p className="footeraddress"><MapPin size={16} /> {school.address}</p><p className="footercontact"><Phone size={15} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a></p><p className="footercontact"><Mail size={15} /> <a href={`mailto:${school.email}`}>{school.email}</a></p></div>
+  <div><Link href="/" className="brand footerbrand"><SchoolLogo /><span><strong>Raniganj National</strong><small>Bidyapith <i>Since 1999</i></small></span></Link><p className="footeraddress"><MapPin size={16} /> {school.address}</p><p className="footercontact"><Phone size={15} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a></p><p className="footercontact"><Mail size={15} /> <a href={`mailto:${school.email}`}>{school.email}</a></p>
+  {school.socials.facebook && <div className="socials" style={{ marginTop: 15 }}><a aria-label="Facebook" href={school.socials.facebook} target="_blank" rel="noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></div>}
+  </div>
   <div><h4>Families</h4><Link href="/admission">Admission</Link><Link href="/calendar">Academic calendar</Link><Link href="/downloads">Downloads</Link><Link href="/student-services">Student services</Link></div>
   <div><h4>School</h4><Link href="/about">Our story</Link><Link href="/facilities">Facilities</Link><Link href="/teachers">Our people</Link><Link href="/achievements">Achievements</Link></div>
   <div><h4>Help</h4><Link href="/notices">Notices</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact office</Link><Link href="/photo-consent">Photo policy</Link></div>

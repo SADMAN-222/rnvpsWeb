@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/components/site";
 import { AnimateIn } from "@/components/animate-in";
 import { school } from "@/data/school";
+
+export const metadata: Metadata = {
+  title: "About Us | Raniganj National Bidyapith",
+  description:
+    "Learn about the history, mission, vision, and core values of Raniganj National Bidyapith, established in 1999 in Dinajpur, Bangladesh.",
+};
 
 export default function AboutPage() {
   return (
