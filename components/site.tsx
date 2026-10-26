@@ -97,7 +97,7 @@ export function Footer() { return <footer className="footer"><div className="she
   <div><h4>School</h4><Link href="/about">Our story</Link><Link href="/facilities">Facilities</Link><Link href="/teachers">Our people</Link><Link href="/achievements">Achievements</Link></div>
   <div><h4>Help</h4><Link href="/notices">Notices</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact office</Link><Link href="/photo-consent">Photo policy</Link></div>
   <div className="mapcolumn"><h4>Location Map</h4><a className="footermap-link" href={school.mapsUrl} target="_blank" rel="noreferrer" aria-label={`Open ${school.name} in Google Maps`}><Image className="footermap-preview" src="/images/school-map.png" alt="Map showing Ranigonj National Bidyapith and its location pin" width={500} height={600} loading="lazy" /></a></div>
-  </div><div className="shell visitorbar"><span className="copyright">© {new Date().getFullYear()} {school.name}. All rights reserved.</span><Link href="/privacy">Privacy policy</Link><Link href="/photo-consent">Photo and child-consent policy</Link></div></footer>; }
+  </div><div className="shell visitorbar"><span className="copyright">© {new Date().getFullYear()} {school.name}. All rights reserved.</span><Link href="/privacy">Privacy policy</Link><Link href="/photo-consent">Photo and child-consent policy</Link><span className="maintained">Developed and maintained by Sadman Ahmmed Chowdhury</span></div></footer>; }
 
 export function SectionTitle({ eyebrow, title, text, light = false }: { eyebrow: string; title: string; text?: string; light?: boolean }) { return <div className={`sectiontitle ${light ? "light" : ""}`}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{text && <p>{text}</p>}</div>; }
 
