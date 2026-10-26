@@ -10,7 +10,17 @@ import { events, notices, programs, values, type Notice } from "@/data/content";
 import { school } from "@/data/school";
 
 const navItems = [["About", "/about"], ["Academics", "/academic"], ["Admission", "/admission"], ["Notices", "/notices"], ["Calendar", "/calendar"], ["Facilities", "/facilities"], ["People", "/teachers"], ["Contact", "/contact"]] as const;
-const heroImages = ["/hero/hero-1.jpg", "/hero/hero-2.jpg", "/hero/hero-3.jpg"];
+
+const heroSlides = [
+  { type: "image" as const, src: "/hero/hero-1.jpg" },
+  { type: "video" as const, src: "/hero/hero-video.mp4", poster: "/hero/hero-1.jpg" },
+  { type: "image" as const, src: "/hero/hero-2.jpg" },
+  { type: "image" as const, src: "/hero/hero-3.jpg" },
+  { type: "image" as const, src: "/hero/hero-4.jpg" },
+  { type: "image" as const, src: "/hero/hero-5.jpg" },
+  { type: "image" as const, src: "/hero/hero-6.jpg" },
+  { type: "image" as const, src: "/hero/hero-7.jpg" },
+];
 
 function SchoolLogo() { return <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} />; }
 
@@ -86,12 +96,131 @@ export function Footer() { return <footer className="footer"><div className="she
   <div><h4>Families</h4><Link href="/admission">Admission</Link><Link href="/calendar">Academic calendar</Link><Link href="/downloads">Downloads</Link><Link href="/student-services">Student services</Link></div>
   <div><h4>School</h4><Link href="/about">Our story</Link><Link href="/facilities">Facilities</Link><Link href="/teachers">Our people</Link><Link href="/achievements">Achievements</Link></div>
   <div><h4>Help</h4><Link href="/notices">Notices</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact office</Link><Link href="/photo-consent">Photo policy</Link></div>
-  <div><h4>Location</h4><p className="mapaddress">{school.mapsUrl ? "Use the official map link below for directions." : "The school office will publish a verified location map shortly."}</p>{school.mapsUrl && <a className="maplink" href={school.mapsUrl} target="_blank" rel="noreferrer">Open official map <ArrowUpRight size={14} /></a>}</div>
+  <div className="mapcolumn"><h4>Location Map</h4><a className="footermap-link" href={school.mapsUrl} target="_blank" rel="noreferrer" aria-label={`Open ${school.name} in Google Maps`}><Image className="footermap-preview" src="/images/school-map.png" alt="Map showing Ranigonj National Bidyapith and its location pin" width={500} height={600} loading="lazy" /></a></div>
   </div><div className="shell visitorbar"><span className="copyright">© {new Date().getFullYear()} {school.name}. All rights reserved.</span><Link href="/privacy">Privacy policy</Link><Link href="/photo-consent">Photo and child-consent policy</Link></div></footer>; }
 
 export function SectionTitle({ eyebrow, title, text, light = false }: { eyebrow: string; title: string; text?: string; light?: boolean }) { return <div className={`sectiontitle ${light ? "light" : ""}`}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{text && <p>{text}</p>}</div>; }
 
-function HeroCarousel() { const [active, setActive] = useState(0); useEffect(() => { const timer = window.setInterval(() => setActive(value => (value + 1) % heroImages.length), 6500); return () => window.clearInterval(timer); }, []); return <div className="heroimage" aria-label="Approved school activity photographs"><div className="heroslides">{heroImages.map((image, index) => <div className={`heroslide ${index === active ? "active" : ""}`} key={image} style={{ backgroundImage: `url(${image})` }} aria-hidden={index !== active} />)}</div><button className="herocontrol previous" onClick={() => setActive(value => (value + heroImages.length - 1) % heroImages.length)} aria-label="Previous photograph"><ChevronLeft size={25} /></button><button className="herocontrol next" onClick={() => setActive(value => (value + 1) % heroImages.length)} aria-label="Next photograph"><ChevronRight size={25} /></button></div>; }
+function HeroCarousel() {
+  const [active, setActive] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Auto-advance logic
+  useEffect(() => {
+    const currentSlide = heroSlides[active];
+
+    if (currentSlide.type === "image") {
+      if (videoRef.current) {
+        try { videoRef.current.pause(); } catch {}
+      }
+      // Images show for 6.5s then advance
+      const timer = window.setTimeout(() => {
+        setActive(value => (value + 1) % heroSlides.length);
+      }, 6500);
+      return () => window.clearTimeout(timer);
+    } else if (currentSlide.type === "video") {
+      // Play video when slide becomes active
+      if (videoRef.current) {
+        try {
+          videoRef.current.currentTime = 0;
+          const p = videoRef.current.play();
+          if (p && typeof p.catch === "function") {
+            p.catch(() => {});
+          }
+        } catch {}
+      }
+      // Safety advance if video is extremely long or finishes
+      const safetyTimer = window.setTimeout(() => {
+        setActive(value => (value + 1) % heroSlides.length);
+      }, 30000);
+      return () => window.clearTimeout(safetyTimer);
+    }
+  }, [active]);
+
+  const handleVideoEnded = () => {
+    setActive(value => (value + 1) % heroSlides.length);
+  };
+
+  const nextSlide = () => {
+    setActive(value => (value + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setActive(value => (value + heroSlides.length - 1) % heroSlides.length);
+  };
+
+  return (
+    <div className="heroimage" aria-label="School video and photographs">
+      <div className="heroslides">
+        {heroSlides.map((slide, index) => {
+          const isActive = index === active;
+
+          if (slide.type === "video") {
+            return (
+              <div 
+                key="hero-video-slide" 
+                className={`heroslide ${isActive ? "active" : ""}`}
+                style={{ opacity: isActive ? 1 : 0 }}
+                aria-hidden={!isActive}
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="auto"
+                  poster={slide.poster}
+                  onEnded={handleVideoEnded}
+                  onError={handleVideoEnded}
+                  className="absolute inset-0 w-full h-full object-cover"
+                >
+                  <source src={slide.src} type="video/mp4" />
+                </video>
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={slide.src}
+              className={`heroslide ${isActive ? "active" : ""}`}
+              style={{ backgroundImage: `url(${slide.src})` }}
+              aria-hidden={!isActive}
+            />
+          );
+        })}
+      </div>
+
+      <button 
+        className="herocontrol previous" 
+        onClick={prevSlide} 
+        aria-label="Previous photograph"
+      >
+        <ChevronLeft size={25} />
+      </button>
+
+      <button 
+        className="herocontrol next" 
+        onClick={nextSlide} 
+        aria-label="Next photograph"
+      >
+        <ChevronRight size={25} />
+      </button>
+
+      <div className="herodots">
+        {heroSlides.map((slide, index) => (
+          <button
+            key={index}
+            className={index === active ? "active" : ""}
+            onClick={() => setActive(index)}
+            aria-label={`Go to slide ${index + 1} (${slide.type === "video" ? "Video" : `Photo ${index}`})`}
+            title={slide.type === "video" ? "Watch Video" : `Photo ${index}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function NoticeModal({ notice, close }: { notice: Notice; close: () => void }) { const buttonRef = useRef<HTMLButtonElement>(null); useEffect(() => { buttonRef.current?.focus(); const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") close(); }; window.addEventListener("keydown", onKeyDown); return () => window.removeEventListener("keydown", onKeyDown); }, [close]); return <div className="modalbackdrop" onMouseDown={close}><div className="modal" role="dialog" aria-modal="true" aria-labelledby="notice-title" onMouseDown={event => event.stopPropagation()}><button ref={buttonRef} className="closebutton" onClick={close} aria-label="Close notice"><X /></button><span className="eyebrow">{notice.category} · {notice.date}</span><h2 id="notice-title">{notice.title}</h2><p>{notice.content}</p></div></div>; }
 
@@ -135,7 +264,6 @@ export function HomePage() { return <>
           <Link className="herolink" href="/contact">Contact school office <ArrowUpRight size={16} /></Link>
         </motion.div>
       </div>
-      <div className="herostamp">RNB<br /><span>Since</span> 1999</div>
     </section>
 
     <section className="section about">

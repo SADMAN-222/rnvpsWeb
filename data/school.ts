@@ -17,8 +17,9 @@ export const school = {
     facebook: "https://www.facebook.com/p/Ranigonj-National-BidyapithDinajpur-100063935141541/",
     youtube: "", // Pending official link
   },
-  mapsUrl: "", // Pending official location confirmation
-  mapsEmbedUrl: "", // Pending official location confirmation
+  mapsUrl: "https://maps.app.goo.gl/pwKq1os2aij9wNPj7",
+  mapsEmbedUrl:
+    "https://www.google.com/maps?q=Ranigonj%20National%20Bidyapith&center=25.305570%2C89.219798&z=17&output=embed",
   principal: {
     name: "MD Mahbubur Rahman Chowdhury",
     role: "Managing Director", // Confirmed MD, but title check needed
@@ -36,4 +37,3 @@ export const school = {
 };
 
 export type SchoolInfo = typeof school;
-
