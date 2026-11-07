@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Compass, Mail, MapPin, Menu, Phone, ShieldCheck, Users, X } from "lucide-react";
 import { events, notices, programs, values, type Notice } from "@/data/content";
 import { school } from "@/data/school";
 
@@ -21,6 +21,13 @@ const heroSlides = [
   { type: "image" as const, src: "/hero/hero-6.jpg" },
   { type: "image" as const, src: "/hero/hero-7.jpg" },
 ];
+
+const valueIcons: Record<string, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>> = {
+  "01": BookOpen,
+  "02": ShieldCheck,
+  "03": Compass,
+  "04": Users,
+};
 
 function SchoolLogo() { return <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} />; }
 
@@ -375,11 +382,42 @@ export function HomePage() { return <>
     </ScrollReveal>
 
     <ScrollReveal direction="up">
-      <section className="section values">
+      <section className="section values" aria-label="Our core values">
         <div className="shell">
-          <SectionTitle eyebrow="What we value" title="The everyday work of becoming." />
+          <SectionTitle
+            eyebrow="What we value"
+            title="The everyday work of becoming."
+            text="Principles that guide our classrooms, character formation, and community life."
+          />
           <div className="valuegrid">
-            {values.map(([number, title, text]) => <div className="value" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></div>)}
+            {values.map(([number, title, text], index) => {
+              const IconComponent = valueIcons[number] || BookOpen;
+              return (
+                <motion.article
+                  className="valuecard"
+                  key={number}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.6, delay: index * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+                >
+                  <div className="valuecard-watermark">{number}</div>
+                  <div className="valuecard-top">
+                    <div className="valuecard-icon" aria-hidden="true">
+                      <IconComponent size={24} strokeWidth={2} />
+                    </div>
+                    <span className="valuecard-tag">Principle {number}</span>
+                  </div>
+                  <div className="valuecard-body">
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </div>
+                  <div className="valuecard-footer" aria-hidden="true">
+                    <div className="valuecard-line" />
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>
