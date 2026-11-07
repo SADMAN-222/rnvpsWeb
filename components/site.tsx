@@ -129,10 +129,10 @@ function HeroCarousel() {
           }
         } catch {}
       }
-      // Safety advance if video is extremely long or finishes
+      // Advance after 8 seconds (plays 0s to 8s)
       const safetyTimer = window.setTimeout(() => {
         setActive(value => (value + 1) % heroSlides.length);
-      }, 30000);
+      }, 8200);
       return () => window.clearTimeout(safetyTimer);
     }
   }, [active]);
@@ -171,6 +171,11 @@ function HeroCarousel() {
                   preload="auto"
                   poster={slide.poster}
                   onEnded={handleVideoEnded}
+                  onTimeUpdate={(e) => {
+                    if (e.currentTarget.currentTime >= 8) {
+                      handleVideoEnded();
+                    }
+                  }}
                   onError={handleVideoEnded}
                   className="absolute inset-0 w-full h-full object-cover"
                 >
