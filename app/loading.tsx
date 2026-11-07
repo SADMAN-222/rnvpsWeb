@@ -3,7 +3,7 @@ export default function Loading() {
     <div
       style={{
         minHeight: "100vh",
-        background: "var(--paper, #f7f6f1)",
+        background: "var(--paper, #F5EBDD)",
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
@@ -20,9 +20,9 @@ export default function Loading() {
       {/* Top bar skeleton */}
       <div
         style={{
-          background: "var(--navy, #0b2d4d)",
+          background: "var(--navy, #315B8C)",
           height: 34,
-          borderBottom: "1px solid rgba(214, 168, 79, 0.3)",
+          borderBottom: "1px solid rgba(242, 118, 94, 0.3)",
         }}
       />
 
@@ -30,7 +30,7 @@ export default function Loading() {
       <div
         style={{
           background: "#fff",
-          borderBottom: "1px solid var(--line, #e3e5e1)",
+          borderBottom: "1px solid var(--line, #E2D5C4)",
           padding: "18px 0",
         }}
       >
@@ -49,8 +49,8 @@ export default function Loading() {
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
-                background: "var(--line, #e3e5e1)",
-                border: "2px solid var(--gold, #d6a84f)",
+                background: "var(--line, #E2D5C4)",
+                border: "2px solid var(--gold, #F2765E)",
               }}
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -60,7 +60,7 @@ export default function Loading() {
                   width: 140,
                   height: 14,
                   borderRadius: 4,
-                  background: "var(--line, #e3e5e1)",
+                  background: "var(--line, #E2D5C4)",
                 }}
               />
               <div
@@ -69,7 +69,7 @@ export default function Loading() {
                   width: 90,
                   height: 10,
                   borderRadius: 4,
-                  background: "var(--line, #e3e5e1)",
+                  background: "var(--line, #E2D5C4)",
                 }}
               />
             </div>
@@ -80,7 +80,7 @@ export default function Loading() {
               width: 120,
               height: 36,
               borderRadius: 4,
-              background: "rgba(11, 45, 77, 0.08)",
+              background: "rgba(49, 91, 140, 0.08)",
             }}
           />
         </div>
@@ -89,7 +89,7 @@ export default function Loading() {
       {/* Hero skeleton */}
       <div
         style={{
-          background: "var(--navy, #0b2d4d)",
+          background: "var(--navy, #315B8C)",
           padding: "70px 0 60px",
           color: "white",
         }}
@@ -101,7 +101,7 @@ export default function Loading() {
               width: 120,
               height: 12,
               borderRadius: 3,
-              background: "var(--gold, #d6a84f)",
+              background: "var(--gold, #F2765E)",
               marginBottom: 18,
             }}
           />
@@ -143,7 +143,7 @@ export default function Loading() {
               width: 220,
               height: 24,
               borderRadius: 4,
-              background: "var(--line, #e3e5e1)",
+              background: "var(--line, #E2D5C4)",
             }}
           />
           <div
@@ -152,7 +152,7 @@ export default function Loading() {
               width: "min(500px, 90%)",
               height: 14,
               borderRadius: 4,
-              background: "var(--line, #e3e5e1)",
+              background: "var(--line, #E2D5C4)",
             }}
           />
         </div>
@@ -169,7 +169,7 @@ export default function Loading() {
               key={item}
               style={{
                 background: "#fff",
-                border: "1px solid var(--line, #e3e5e1)",
+                border: "1px solid var(--line, #E2D5C4)",
                 padding: 28,
                 borderRadius: 4,
                 display: "flex",
@@ -183,7 +183,7 @@ export default function Loading() {
                   width: 60,
                   height: 10,
                   borderRadius: 3,
-                  background: "var(--gold, #d6a84f)",
+                  background: "var(--gold, #F2765E)",
                 }}
               />
               <div
@@ -192,7 +192,7 @@ export default function Loading() {
                   width: "70%",
                   height: 22,
                   borderRadius: 4,
-                  background: "var(--line, #e3e5e1)",
+                  background: "var(--line, #E2D5C4)",
                 }}
               />
               <div
@@ -201,7 +201,7 @@ export default function Loading() {
                   width: "100%",
                   height: 14,
                   borderRadius: 4,
-                  background: "var(--line, #e3e5e1)",
+                  background: "var(--line, #E2D5C4)",
                 }}
               />
               <div
@@ -210,7 +210,7 @@ export default function Loading() {
                   width: "85%",
                   height: 14,
                   borderRadius: 4,
-                  background: "var(--line, #e3e5e1)",
+                  background: "var(--line, #E2D5C4)",
                 }}
               />
             </div>
