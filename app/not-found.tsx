@@ -34,7 +34,7 @@ export default function NotFound() {
               borderRadius: "50%",
               overflow: "hidden",
               border: "3px solid var(--gold)",
-              boxShadow: "0 8px 24px rgba(49, 91, 140, 0.15)",
+              boxShadow: "0 8px 24px rgba(11, 45, 77, 0.15)",
               marginBottom: 24,
               display: "flex",
               alignItems: "center",
