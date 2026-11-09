@@ -21,15 +21,29 @@ export const school = {
   mapsEmbedUrl:
     "https://www.google.com/maps?q=Ranigonj%20National%20Bidyapith&center=25.305570%2C89.219798&z=17&output=embed",
   principal: {
-    name: "MD Mahbubur Rahman Chowdhury",
-    role: "Managing Director", // Confirmed MD, but title check needed
-    bio: "", // Pending
-    photo: "", // Pending
+    name: "Md. Mamunur Rashid",
+    role: "Director 3 & Principal",
+    bio: "Guiding academic standards, student development, and residential campus administration.",
+    photo: "/images/school-logo.jpg",
   },
   director: {
-    name: "MD Mahbubur Rahman Chowdhury",
-    role: "Managing Director", // Placeholder
+    name: "Md. Mahbubur Rahman Chowdhury",
+    role: "Director 1",
   },
+  directors: [
+    {
+      name: "Md. Mahbubur Rahman Chowdhury",
+      role: "Director 1",
+    },
+    {
+      name: "Md. Hafizur Rahman",
+      role: "Director 2",
+    },
+    {
+      name: "Md. Mamunur Rashid",
+      role: "Director 3 & Principal",
+    },
+  ],
   mission:
     "To nurture curious, capable and considerate learners through purposeful education and a disciplined, welcoming environment.",
   vision:
