@@ -337,14 +337,18 @@ export function HomePage() { return <>
           <div className="aboutvisual">
             <div className="yearmark">EST.<small>1999</small></div>
             <div className="photo photoone" />
-            <div className="phototag">A school is<br /><b>people in progress.</b></div>
+            <div className="phototag">Raniganj National Bidyapith<br /><b>Nurturing Intellect & Character</b></div>
           </div>
         </ScrollReveal>
         <ScrollReveal direction="right" delay={0.2}>
           <div className="aboutcopy">
-            <SectionTitle eyebrow="Our foundation" title="A thoughtful place to grow." text="A learning community shaped by knowledge, discipline and humanity." />
-            <p>Discover the school’s story, values and official information in one clear place.</p>
-            <Link className="button buttonoutline" href="/about">Read our story <ArrowUpRight size={17} /></Link>
+            <SectionTitle 
+              eyebrow="Our Foundation & History" 
+              title="Welcome to Raniganj National Bidyapith." 
+              text="Located at Raniganj Bazar in Ghoraghat, Dinajpur — established in 1999 as the first dedicated residential school in the Upazila." 
+            />
+            <p>Over more than two decades, the institution has expanded into one of the region’s most respected centers for secondary and residential education, maintaining a consistent 100% SSC pass rate from 2005 through 2026.</p>
+            <Link className="button buttonoutline" href="/about">Explore our full history <ArrowUpRight size={17} /></Link>
           </div>
         </ScrollReveal>
       </div>
