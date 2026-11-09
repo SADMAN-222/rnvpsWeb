@@ -25,6 +25,7 @@ function ProfileCards({ category }: { category: PeopleCategory }) {
           <article
             className={`profilecard ${isSkeleton ? "is-skeleton-card" : ""}`}
             key={profile.id || `${category}-${idx}`}
+            id={profile.id}
           >
             <div className={`profilecard-media ${isLogo ? "is-logo-placeholder" : ""}`}>
               <Image

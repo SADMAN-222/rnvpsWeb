@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PageFrame } from "@/components/site";
 import { AnimateIn } from "@/components/animate-in";
 import { 
+  ArrowUpRight,
   Award, 
   BookOpen, 
   Building2, 
@@ -72,16 +74,22 @@ const leadershipTeam = [
     initials: "MR",
     name: "Md. Mahbubur Rahman Chowdhury",
     role: "Director 1",
+    href: "/people/directors#director-1",
+    action: "View Director Profile",
   },
   {
     initials: "HR",
     name: "Md. Hafizur Rahman",
     role: "Director 2",
+    href: "/people/directors#director-2",
+    action: "View Director Profile",
   },
   {
     initials: "MR",
     name: "Md. Mamunur Rashid",
     role: "Director 3 & Principal",
+    href: "/people/principal",
+    action: "View Principal Profile",
   },
 ];
 
@@ -221,19 +229,30 @@ export default function AboutPage() {
       <AnimateIn variant="up" delay={300} className="about-section-block" as="section">
         <h2>Institutional Governance</h2>
         <p className="section-intro">
-          The institution’s growth, academic standards, and daily operations are driven by its dedicated governing leadership:
+          The institution’s growth, academic standards, and daily operations are driven by its dedicated governing leadership. Select a leader below to view their detailed profile:
         </p>
         <div className="about-grid-3" style={{ marginBottom: 24 }}>
           {leadershipTeam.map((leader) => (
-            <div className="about-gov-card" key={leader.name}>
+            <Link
+              href={leader.href}
+              className="about-gov-card"
+              key={leader.name}
+              title={`${leader.action} - ${leader.name}`}
+            >
               <div className="about-gov-avatar" aria-hidden="true">
                 {leader.initials}
               </div>
               <div className="about-gov-info">
                 <strong>{leader.name}</strong>
                 <span>{leader.role}</span>
+                <span className="about-gov-action-hint">
+                  {leader.action} <ArrowUpRight size={13} />
+                </span>
               </div>
-            </div>
+              <div className="about-gov-arrow-btn" aria-hidden="true">
+                <ArrowUpRight size={16} />
+              </div>
+            </Link>
           ))}
         </div>
         <p style={{ color: "var(--muted)", fontSize: "14.5px", lineHeight: 1.7, margin: 0 }}>
