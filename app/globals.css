@@ -465,11 +465,152 @@ button { cursor: pointer; }
 /* Stagger children of a parent with data-stagger attribute */
 [data-stagger] > * { transition-delay: calc(var(--i, 0) * 80ms) !important; }
 
-@media (max-width: 1100px) { .footergrid { grid-template-columns: 1.3fr 1fr 1fr 1fr; }.footergrid > div:last-child { grid-column: span 2; }.footermap { max-width: 420px; } }
-@media (max-width: 900px) { .desktopnav, .login { display: none; }.menubutton { display: inline-flex; }.mobilenav { display: block; }.shell { width: min(100% - 40px, 680px); }.heroimage { inset: 0; }.herocontent { padding: 100px 0 90px; }.hero h1 { font-size: clamp(42px, 10vw, 62px); }.quickgrid { grid-template-columns: repeat(3, 1fr); }.quickitem:nth-child(4) { border-left: 1px solid var(--line); }.aboutgrid, .messagegrid, .heritagegrid, .eventgrid { gap: 55px; grid-template-columns: 1fr; }.aboutvisual { max-width: 580px; }.noticegrid, .programgrid, .resourcegrid { grid-template-columns: 1fr; }.notice { border-bottom: 1px solid var(--line); border-right: 0; padding-right: 0; }.notice + .notice { padding-left: 0; }.program { min-height: auto; }.valuegrid { grid-template-columns: repeat(2, 1fr); gap: 20px; }.contactlayout, .calendarlist { grid-template-columns: 1fr; } }
-@media (max-width: 900px) { .peoplelinks, .profilegrid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .shell { width: calc(100% - 32px); }.topcontact { display: none; }.topinner { justify-content: center; }.navinner { min-height: 70px; }.brand strong { font-size: 12px; }.brand small { font-size: 10px; }.hero { min-height: 620px; }.heroimage { background-position: 68% center; }.herocontent { padding-top: 85px; }.heroactions { align-items: flex-start; flex-direction: column; gap: 18px; }.herostamp { bottom: 24px; right: 18px; }.quickgrid { grid-template-columns: repeat(2, 1fr); }.quickitem { min-height: 68px; padding: 0 10px; }.section { padding: 75px 0; }.aboutvisual { height: 350px; }.photoone { height: 290px; margin-left: 35px; width: calc(100% - 35px); }.yearmark { font-size: 40px; padding: 17px 14px; top: 35px; }.phototag { font-size: 12px; }.splitheading, .closinginner { align-items: flex-start; flex-direction: column; gap: 25px; }.notice { grid-template-columns: 45px 1fr; }.timeline { align-items: flex-start; flex-direction: column; gap: 12px; }.timeline i { height: 20px; width: 1px; }.valuegrid { grid-template-columns: 1fr; gap: 16px; }.valuecard { min-height: auto; padding: 26px 20px 24px; }.footermissioninner { align-items: flex-start; flex-direction: column; gap: 22px; padding-bottom: 24px; padding-top: 24px; }.footermission strong, .socials > span { font-size: 18px; }.socials a { height: 32px; width: 32px; }.footergrid { gap: 35px 20px; grid-template-columns: 1fr 1fr; }.footergrid > div:first-child { grid-column: span 2; }.footergrid > div:last-child { grid-column: span 2; }.visitorbar { align-items: flex-start; flex-wrap: wrap; gap: 15px 25px; }.maintained, .copyright { margin-left: 0; width: 100%; }.pagehero { padding: 70px 16px; }.pagebody { padding-top: 55px; }.featurelist { grid-template-columns: 1fr; }.modal { padding: 34px 24px; } }
-@media (max-width: 560px) { .peoplefilter { align-items: flex-start; flex-direction: column; gap: 8px; }.peoplelinks, .profilegrid { grid-template-columns: 1fr; }.peoplelink { min-height: 145px; } }
+/* ─── Global Responsive Media Queries ───────────────────────────────────── */
+@media (max-width: 1100px) {
+  .footergrid { grid-template-columns: 1.3fr 1fr 1fr 1fr; }
+  .footergrid > div:last-child { grid-column: span 2; }
+  .footermap { max-width: 420px; }
+}
+
+@media (max-width: 900px) {
+  .desktopnav, .login { display: none; }
+  .menubutton { display: inline-flex; }
+  .mobilenav { display: block; }
+  .shell { width: min(100% - 36px, 680px); }
+  .heroimage { inset: 0; }
+  .herocontent { padding: 90px 0 80px; }
+  .quickgrid { grid-template-columns: repeat(3, 1fr); }
+  .quickitem:nth-child(4) { border-left: 1px solid var(--line); }
+  .aboutgrid, .messagegrid, .heritagegrid, .eventgrid { gap: 48px; grid-template-columns: 1fr; }
+  .aboutvisual { max-width: 580px; margin: 0 auto; }
+  .noticegrid, .programgrid, .resourcegrid { grid-template-columns: 1fr; }
+  .notice { border-bottom: 1px solid var(--line); border-right: 0; padding-right: 0; }
+  .notice + .notice { padding-left: 0; }
+  .program { min-height: auto; }
+  .valuegrid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .contactlayout, .calendarlist { grid-template-columns: 1fr; }
+  .peoplelinks, .profilegrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  /* Prevent horizontal scroll */
+  html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+  .shell { width: calc(100% - 28px); }
+
+  /* Top bar */
+  .topcontact { display: none; }
+  .topinner { justify-content: center; font-size: 11px; text-align: center; padding: 6px 0; }
+
+  /* Header & Navigation */
+  .navinner { min-height: 64px; gap: 10px; }
+  .schoollogo { width: 40px; height: 40px; }
+  .brand strong { font-size: 13.5px; line-height: 1.2; }
+  .brand small { font-size: 10.5px; }
+  .menubutton { width: 42px; height: 42px; padding: 0; border-radius: 8px; }
+  .mobilenav {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 14px 28px;
+  }
+  .mobilenav a {
+    min-height: 48px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+  }
+
+  /* Hero */
+  .hero { min-height: 540px; }
+  .herocontent { padding: 75px 0 70px; }
+  .hero h1 { font-size: clamp(28px, 8vw, 38px); line-height: 1.15; margin: 16px 0 14px; letter-spacing: -0.02em; }
+  .hero p { font-size: 14.5px; line-height: 1.6; }
+  .heroactions { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 26px; width: 100%; max-width: 320px; }
+  .heroactions .button { width: 100%; min-height: 48px; justify-content: center; text-align: center; }
+  .herostamp { display: none; } /* Prevent collision on mobile */
+  .herodots { bottom: 18px; }
+
+  /* Quick links */
+  .quickgrid { grid-template-columns: repeat(2, 1fr); }
+  .quickitem { min-height: 66px; padding: 8px 10px; }
+  .quickitem strong { font-size: 11.5px; }
+  .quickitem:nth-child(2n+1) { border-left: 0; }
+
+  /* Values Section */
+  .values { padding: 50px 0 60px; }
+  .values .sectiontitle { margin-bottom: 28px; }
+  .valuegrid { grid-template-columns: 1fr; gap: 14px; }
+  .valuecard { min-height: auto; padding: 22px 18px; border-radius: 14px; }
+  .valuecard-top { margin-bottom: 16px; }
+  .valuecard-icon { width: 44px; height: 44px; border-radius: 12px; }
+  .valuecard-body h3 { font-size: 18px; margin-bottom: 8px; }
+  .valuecard-body p { font-size: 13.5px; line-height: 1.6; }
+  .valuecard-watermark { font-size: 58px; right: 12px; bottom: 4px; }
+
+  /* Section padding & Headings */
+  .section { padding: 60px 0; }
+  .sectiontitle h2 { font-size: clamp(26px, 6.5vw, 36px); margin: 10px 0 14px; }
+  .sectiontitle p { font-size: 13.5px; line-height: 1.65; }
+  .splitheading, .closinginner { flex-direction: column; align-items: flex-start; gap: 18px; }
+
+  /* About visual collage */
+  .aboutvisual { height: 310px; width: 100%; }
+  .photoone { height: 260px; margin-left: 18px; width: calc(100% - 18px); border-radius: 6px; }
+  .yearmark { font-size: 32px; padding: 12px 10px; top: 20px; }
+  .yearmark small { font-size: 9px; }
+  .phototag { font-size: 11px; padding: 10px 14px; }
+
+  /* Notices & Events */
+  .notice { grid-template-columns: 46px 1fr; gap: 12px; padding: 14px 0; }
+  .noticedate strong { font-size: 20px; }
+  .noticedate span { font-size: 9px; }
+  .eventgrid { gap: 32px; }
+  .calendar { padding: 20px 16px; border-radius: 8px; }
+
+  /* Inner Pages Hero */
+  .pagehero { padding: 48px 16px 38px !important; }
+  .pagehero h1 { font-size: clamp(26px, 7vw, 36px) !important; line-height: 1.15; margin: 10px 0 10px; word-break: break-word; }
+  .pagehero p { font-size: 14px; line-height: 1.6; }
+  .pagebody { padding-top: 38px; padding-bottom: 60px; }
+  .pagebody h2 { font-size: 25px; }
+
+  /* People Section */
+  .peoplelinks, .profilegrid { grid-template-columns: 1fr; gap: 18px; }
+  .peoplelink { min-height: auto; padding: 18px 16px; }
+  .profilecard-media { height: 220px; }
+  .profilecard-logo { width: 110px; height: 110px; }
+  .profilecard-body { padding: 18px 16px; }
+  .profilecard-name { font-size: 20px; }
+  .peoplefilter { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* Form & Inputs: Prevent iOS/Android zoom on focus */
+  .contactform input, .contactform textarea, .contactform select,
+  .field-input, .field-select, .field-textarea {
+    font-size: 16px !important;
+  }
+
+  /* Footer */
+  .footermissioninner { flex-direction: column; align-items: flex-start; gap: 18px; padding: 22px 0; }
+  .footermission strong { font-size: 19px; }
+  .footergrid { grid-template-columns: 1fr; gap: 26px; padding-top: 30px; padding-bottom: 30px; }
+  .footergrid > div:first-child, .footergrid > div:last-child { grid-column: span 1; }
+  .footermap-preview { height: 190px; }
+  .visitorbar { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 16px; }
+  .maintained, .copyright { margin-left: 0; width: 100%; font-size: 11px; }
+
+  /* Modals */
+  .modal { padding: 26px 18px; border-radius: 8px; }
+  .modal h2 { font-size: 26px; }
+}
+
+@media (max-width: 380px) {
+  .shell { width: calc(100% - 20px); }
+  .brand strong { font-size: 12px; }
+  .brand small { font-size: 9.5px; }
+  .schoollogo { width: 34px; height: 34px; }
+  .quickgrid { grid-template-columns: 1fr; }
+  .quickitem { border-left: 0; border-bottom: 1px solid var(--line); min-height: 56px; }
+  .hero h1 { font-size: 26px; }
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
 .typing-text { display: inline-block; }
@@ -882,13 +1023,105 @@ button { cursor: pointer; }
 @media (max-width: 900px) {
   .about-hero-showcase {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 28px;
   }
   .about-img-box {
-    min-height: 320px;
+    min-height: 280px;
   }
   .about-grid-3 {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-img-box {
+    min-height: 220px;
+    max-height: 260px;
+    border-radius: 14px;
+  }
+  .about-img-badge {
+    bottom: 10px;
+    left: 10px;
+    padding: 7px 11px;
+    font-size: 11.5px;
+  }
+  .about-text-card {
+    padding: 22px 16px;
+    border-radius: 14px;
+  }
+  .about-text-card h1 {
+    font-size: clamp(22px, 6.5vw, 28px);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .about-text-card .history-tagline {
+    font-size: 13.5px;
+    margin-bottom: 14px;
+  }
+  .about-text-card p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .about-table-section {
+    padding: 18px 12px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  .about-table-section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .about-table-wrap {
+    border-radius: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .about-table th, .about-table td {
+    padding: 10px 12px;
+    font-size: 12.5px;
+  }
+  .about-section-block {
+    margin-bottom: 36px;
+  }
+  .about-section-block h2 {
+    font-size: 22px;
+  }
+  .about-section-block .section-intro {
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .about-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .about-gov-card {
+    padding: 14px 12px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+  .about-gov-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+  .about-gov-info strong {
+    font-size: 13.5px;
+    word-break: break-word;
+  }
+  .about-gov-arrow-btn {
+    width: 28px;
+    height: 28px;
+  }
+  .about-quote-box {
+    padding: 24px 16px;
+    border-radius: 12px;
+    margin-top: 32px;
+  }
+  .about-quote-box blockquote {
+    font-size: 16px;
+    line-height: 1.5;
   }
 }
