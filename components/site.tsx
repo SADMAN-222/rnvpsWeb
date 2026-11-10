@@ -298,7 +298,17 @@ function NoticeModal({ notice, close }: { notice: Notice; close: () => void }) {
 
 function NoticeBoard() { const [selected, setSelected] = useState<Notice | null>(null); return <section className="section notices"><div className="shell"><div className="splitheading"><SectionTitle eyebrow="Stay informed" title="Official notices" text="Verified updates from the school office." /><Link className="textlink" href="/notices">All notices <ArrowUpRight size={16} /></Link></div><div className="noticegrid">{notices.slice(0, 3).map(notice => <article className="notice" key={notice.id}><div className="noticedate"><strong>{notice.date.split(" ")[0]}</strong><span>{notice.date.split(" ")[1]}</span></div><div><span className="tag">{notice.category}</span><h3>{notice.title}</h3><p>{notice.summary}</p><button className="textlink" onClick={() => setSelected(notice)}>Read notice <ArrowUpRight size={15} /></button></div></article>)}</div></div>{selected && <NoticeModal notice={selected} close={() => setSelected(null)} />}</section>; }
 
-export function HomePage() { return <>
+export function HomePage() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  return <>
   <SiteHeader />
   <main>
     <section className="hero">

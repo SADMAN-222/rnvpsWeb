@@ -91,8 +91,6 @@ export function MomentsOnCampus() {
   const [isHovered, setIsHovered] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const thumbTrackRef = useRef<HTMLDivElement>(null);
-  const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   // Touch tracking for mobile swipe navigation
   const touchStartX = useRef<number>(0);
@@ -117,30 +115,6 @@ export function MomentsOnCampus() {
     return () => clearInterval(interval);
   }, [isHovered, nextSlide]);
 
-  const isFirstRender = useRef(true);
-
-  // Smoothly center active thumbnail inside the horizontal track ONLY (never scrolls window)
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    const track = thumbTrackRef.current;
-    const activeThumb = thumbRefs.current[currentIndex];
-    if (track && activeThumb) {
-      const trackRect = track.getBoundingClientRect();
-      const thumbRect = activeThumb.getBoundingClientRect();
-      const offsetLeft = thumbRect.left - trackRect.left;
-      const targetScroll = track.scrollLeft + offsetLeft - (trackRect.width / 2) + (thumbRect.width / 2);
-
-      // Strictly scroll the thumbnail div container horizontally — leaves page/window scroll completely untouched
-      track.scrollTo({
-        left: Math.max(0, targetScroll),
-        behavior: "smooth",
-      });
-    }
-  }, [currentIndex]);
-
   // Handle keyboard navigation when maximized
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -157,7 +131,7 @@ export function MomentsOnCampus() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMaximized, nextSlide, prevSlide]);
 
-  // Touch swipe handlers
+  // Touch swipe handlers (for mobile)
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsHovered(true);
     touchStartX.current = e.touches[0].clientX;
@@ -202,11 +176,6 @@ export function MomentsOnCampus() {
           </div>
 
           <div className="moments-header-controls">
-            <div className={`moments-status-badge ${isHovered ? "paused" : "playing"}`}>
-              <span className="moments-status-dot" />
-              <span>{isHovered ? "Paused (Hovering)" : "Live (Changes 2s)"}</span>
-            </div>
-
             <button
               type="button"
               className="moments-maximize-btn"
@@ -230,16 +199,16 @@ export function MomentsOnCampus() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Main Visual Frame */}
+          {/* Main Visual Frame with Seamless Dissolve Cross-Fade */}
           <div className="moments-viewport" onClick={() => setIsMaximized(true)}>
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false}>
               <motion.div
                 key={currentMoment.id}
                 className="moments-image-wrapper"
-                initial={{ opacity: 0, scale: 1.03 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
               >
                 <Image
                   src={currentMoment.image}
@@ -247,7 +216,7 @@ export function MomentsOnCampus() {
                   fill
                   sizes="(max-width: 900px) 100vw, 1180px"
                   className="moments-img"
-                  priority={currentIndex === 0}
+                  priority
                 />
               </motion.div>
             </AnimatePresence>
@@ -265,9 +234,9 @@ export function MomentsOnCampus() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentMoment.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.25 }}
                   className="moments-caption-content"
                 >
@@ -309,12 +278,11 @@ export function MomentsOnCampus() {
           </div>
 
           {/* Thumbnail Track */}
-          <div ref={thumbTrackRef} className="moments-track">
+          <div className="moments-track">
             {campusMoments.map((item, idx) => (
               <button
                 type="button"
                 key={item.id}
-                ref={el => { thumbRefs.current[idx] = el; }}
                 onClick={() => setCurrentIndex(idx)}
                 className={`moments-thumb-btn ${idx === currentIndex ? "active" : ""}`}
                 aria-label={`View photo ${idx + 1}: ${item.tag}`}
@@ -358,9 +326,6 @@ export function MomentsOnCampus() {
                 </div>
 
                 <div className="lightbox-actions">
-                  <span className="lightbox-status">
-                    {isHovered ? "Paused on hover" : "Auto-playing (2s)"}
-                  </span>
                   <button
                     type="button"
                     className="lightbox-close-btn"
@@ -374,21 +339,21 @@ export function MomentsOnCampus() {
                 </div>
               </div>
 
-              {/* High-Res Viewport */}
+              {/* High-Res Viewport with Seamless Dissolve Cross-Fade */}
               <div
                 className="moments-lightbox-media"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
               >
-                <AnimatePresence mode="wait">
+                <AnimatePresence initial={false}>
                   <motion.div
                     key={currentMoment.id}
                     className="lightbox-img-wrap"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.28 }}
+                    transition={{ duration: 0.45, ease: "easeInOut" }}
                   >
                     <Image
                       src={currentMoment.image}
