@@ -117,14 +117,26 @@ export function MomentsOnCampus() {
     return () => clearInterval(interval);
   }, [isHovered, nextSlide]);
 
-  // Smoothly scroll active thumbnail into view on mobile
+  const isFirstRender = useRef(true);
+
+  // Smoothly center active thumbnail inside the horizontal track ONLY (never scrolls window)
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const track = thumbTrackRef.current;
     const activeThumb = thumbRefs.current[currentIndex];
-    if (activeThumb && thumbTrackRef.current) {
-      activeThumb.scrollIntoView({
+    if (track && activeThumb) {
+      const trackRect = track.getBoundingClientRect();
+      const thumbRect = activeThumb.getBoundingClientRect();
+      const offsetLeft = thumbRect.left - trackRect.left;
+      const targetScroll = track.scrollLeft + offsetLeft - (trackRect.width / 2) + (thumbRect.width / 2);
+
+      // Strictly scroll the thumbnail div container horizontally — leaves page/window scroll completely untouched
+      track.scrollTo({
+        left: Math.max(0, targetScroll),
         behavior: "smooth",
-        block: "nearest",
-        inline: "center",
       });
     }
   }, [currentIndex]);
