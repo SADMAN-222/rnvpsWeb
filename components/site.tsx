@@ -29,7 +29,7 @@ const valueIcons: Record<string, React.ComponentType<{ size?: number; className?
   "04": Users,
 };
 
-function SchoolLogo() { return <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} />; }
+function SchoolLogo() { return <Image className="schoollogo" src="/images/school-logo.jpg" alt="Raniganj National Bidyapith logo" width={48} height={48} priority />; }
 
 function ScrollReveal({ children, delay = 0, y = 20, direction = "up" }: { children: React.ReactNode; delay?: number; y?: number; direction?: "up" | "down" | "left" | "right" }) {
   const ref = useRef(null);
@@ -317,23 +317,31 @@ export function HomePage() { return <>
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Education with <em>purpose.</em><br />Character with <em>care.</em>
+          Education with <em>purpose.</em><br className="desktop-break" />Character with <em>care.</em>
         </motion.h1>
-        <motion.p
+        <motion.div 
+          className="herodescription"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <TypingText texts={[school.taglineBn, school.description]} />
-        </motion.p>
+          <p className="heromotto">{school.taglineBn}</p>
+          <p className="herotext">{school.description}</p>
+        </motion.div>
         <motion.div 
           className="heroactions"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <Link className="button buttongold" href="/admission">Admission guidance <ArrowUpRight size={17} /></Link>
-          <Link className="herolink" href="/contact">Contact school office <ArrowUpRight size={16} /></Link>
+          <Link className="button buttongold hero-btn-primary" href="/admission">
+            <span>Admission guidance</span>
+            <ArrowUpRight size={17} />
+          </Link>
+          <Link className="herolink hero-btn-secondary" href="/contact">
+            <span>Contact school office</span>
+            <ArrowUpRight size={16} />
+          </Link>
         </motion.div>
       </div>
     </section>
