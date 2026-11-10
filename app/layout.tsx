@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -84,7 +85,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           rel="stylesheet"
         />
       </head>
-      <body className="page-enter">{children}</body>
+      <body className="page-enter">
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   );
 }
