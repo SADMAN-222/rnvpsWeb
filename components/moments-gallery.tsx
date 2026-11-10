@@ -91,6 +91,14 @@ export function MomentsOnCampus() {
   const [isHovered, setIsHovered] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const thumbTrackRef = useRef<HTMLDivElement>(null);
+  const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Touch tracking for mobile swipe navigation
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const touchEndY = useRef<number>(0);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex(prev => (prev + 1) % campusMoments.length);
@@ -100,14 +108,26 @@ export function MomentsOnCampus() {
     setCurrentIndex(prev => (prev - 1 + campusMoments.length) % campusMoments.length);
   }, []);
 
-  // Auto-advance every 1 second (1000ms), paused on hover
+  // Auto-advance every 2 seconds (2000ms), paused on hover or touch
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
       nextSlide();
-    }, 1000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [isHovered, nextSlide]);
+
+  // Smoothly scroll active thumbnail into view on mobile
+  useEffect(() => {
+    const activeThumb = thumbRefs.current[currentIndex];
+    if (activeThumb && thumbTrackRef.current) {
+      activeThumb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [currentIndex]);
 
   // Handle keyboard navigation when maximized
   useEffect(() => {
@@ -124,6 +144,34 @@ export function MomentsOnCampus() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMaximized, nextSlide, prevSlide]);
+
+  // Touch swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsHovered(true);
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = () => {
+    setIsHovered(false);
+    const diffX = touchStartX.current - touchEndX.current;
+    const diffY = touchStartY.current - touchEndY.current;
+    // Check if horizontal swipe exceeds 40px and is primarily horizontal
+    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+  };
 
   const currentMoment = campusMoments[currentIndex];
 
@@ -144,7 +192,7 @@ export function MomentsOnCampus() {
           <div className="moments-header-controls">
             <div className={`moments-status-badge ${isHovered ? "paused" : "playing"}`}>
               <span className="moments-status-dot" />
-              <span>{isHovered ? "Paused (Hovering)" : "Live (Changes 1s)"}</span>
+              <span>{isHovered ? "Paused (Hovering)" : "Live (Changes 2s)"}</span>
             </div>
 
             <button
@@ -166,8 +214,9 @@ export function MomentsOnCampus() {
           className="moments-stage"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Main Visual Frame */}
           <div className="moments-viewport" onClick={() => setIsMaximized(true)}>
@@ -248,11 +297,12 @@ export function MomentsOnCampus() {
           </div>
 
           {/* Thumbnail Track */}
-          <div className="moments-track">
+          <div ref={thumbTrackRef} className="moments-track">
             {campusMoments.map((item, idx) => (
               <button
                 type="button"
                 key={item.id}
+                ref={el => { thumbRefs.current[idx] = el; }}
                 onClick={() => setCurrentIndex(idx)}
                 className={`moments-thumb-btn ${idx === currentIndex ? "active" : ""}`}
                 aria-label={`View photo ${idx + 1}: ${item.tag}`}
@@ -297,7 +347,7 @@ export function MomentsOnCampus() {
 
                 <div className="lightbox-actions">
                   <span className="lightbox-status">
-                    {isHovered ? "Paused on hover" : "Auto-playing (1s)"}
+                    {isHovered ? "Paused on hover" : "Auto-playing (2s)"}
                   </span>
                   <button
                     type="button"
@@ -313,7 +363,12 @@ export function MomentsOnCampus() {
               </div>
 
               {/* High-Res Viewport */}
-              <div className="moments-lightbox-media">
+              <div
+                className="moments-lightbox-media"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentMoment.id}

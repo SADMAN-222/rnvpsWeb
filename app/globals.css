@@ -1848,22 +1848,76 @@ button { cursor: pointer; }
 }
 
 @media (max-width: 640px) {
-  .moments-section { padding: 50px 0 60px; }
-  .moments-header { flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
-  .moments-header-controls { width: 100%; justify-content: space-between; }
-  .moments-stage { padding: 10px; border-radius: 14px; }
-  .moments-viewport { height: 340px; }
-  .moments-caption-box { padding: 16px 14px; }
-  .moments-caption-title { font-size: 18px; }
-  .moments-caption-desc { font-size: 12.5px; line-height: 1.45; }
-  .moments-nav-btn { width: 40px; height: 40px; }
+  .moments-section { padding: 42px 0 50px; }
+  .moments-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .moments-title { font-size: 26px; margin: 4px 0 6px; }
+  .moments-subtitle { font-size: 13.5px; line-height: 1.5; }
+  .moments-header-controls { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .moments-status-badge { padding: 6px 11px; font-size: 10px; }
+  .moments-maximize-btn { padding: 7px 13px; font-size: 11px; gap: 5px; }
+  
+  .moments-stage { padding: 8px; border-radius: 14px; }
+  .moments-viewport { height: 350px; border-radius: 10px; }
+  .moments-expand-pill { top: 10px; right: 10px; padding: 4px 9px; font-size: 9.5px; gap: 4px; }
+  .moments-overlay-gradient {
+    background: linear-gradient(180deg, rgba(7, 24, 43, 0.05) 0%, rgba(7, 24, 43, 0.3) 35%, rgba(7, 24, 43, 0.94) 75%, rgba(7, 24, 43, 0.98) 100%);
+  }
+  .moments-caption-box { padding: 14px 12px 10px; }
+  .moments-tag-row { gap: 8px; margin-bottom: 4px; }
+  .moments-tag { font-size: 9.5px; padding: 2.5px 8px; letter-spacing: 0.08em; }
+  .moments-counter { font-size: 11px; }
+  .moments-caption-title { font-size: 17px; line-height: 1.25; margin: 0 0 4px; }
+  .moments-caption-desc { font-size: 12px; line-height: 1.45; }
+  
+  .moments-nav-btn { width: 36px; height: 36px; top: 40%; }
   .moments-nav-btn.prev { left: 8px; }
   .moments-nav-btn.next { right: 8px; }
-  .moments-thumb-btn { flex: 0 0 74px; }
-  .moments-thumb-img-box { height: 46px; }
+  
+  .moments-track {
+    margin-top: 10px;
+    gap: 8px;
+    padding: 2px 0 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .moments-track::-webkit-scrollbar { display: none; }
+  .moments-thumb-btn { flex: 0 0 74px; gap: 4px; }
+  .moments-thumb-img-box { height: 46px; border-radius: 6px; }
+  .moments-thumb-label { font-size: 9.5px; }
+  
+  /* Lightbox Modal on Mobile */
   .moments-lightbox-backdrop { padding: 0; }
   .moments-lightbox-container { width: 100%; height: 100%; border-radius: 0; border: 0; }
-  .moments-lightbox-bottom { flex-direction: column; align-items: flex-start; padding: 14px 16px; gap: 10px; }
+  .moments-lightbox-topbar { padding: 12px 14px; gap: 10px; }
+  .lightbox-title-wrap { flex: 1; min-width: 0; }
+  .lightbox-tag { font-size: 9.5px; margin-bottom: 2px; }
+  .lightbox-title { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lightbox-actions { gap: 8px; flex-shrink: 0; }
+  .lightbox-status { display: none; }
+  .lightbox-close-btn { padding: 6px 12px; font-size: 11px; gap: 4px; }
+  .lightbox-nav-btn { width: 38px; height: 38px; }
+  .lightbox-nav-btn.prev { left: 8px; }
+  .lightbox-nav-btn.next { right: 8px; }
+  .moments-lightbox-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .lightbox-desc-text h4 { font-size: 14.5px; margin: 0 0 3px; }
+  .lightbox-desc-text p {
+    font-size: 12px;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lightbox-bottom-nav { width: 100%; justify-content: space-between; }
+  .lightbox-slide-num { font-size: 12px; }
+  .lightbox-dots { gap: 4px; }
+  .lightbox-dot { width: 6px; height: 6px; }
+  .lightbox-dot.active { width: 16px; }
 }
 
 
