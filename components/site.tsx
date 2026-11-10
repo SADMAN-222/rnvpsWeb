@@ -88,21 +88,28 @@ export function SiteHeader() {
   return <>
     <div className="topline">
       <div className="shell topinner">
-        <span>EST. {school.established} · {school.name}</span>
+        <span className="toplocation">
+          <MapPin size={12} />
+          <span>Raniganj Bazar, Ghoraghat, Dinajpur</span>
+        </span>
         <span className="topcontact">
-          <Phone size={13} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a>
-          <b>·</b>
-          <Mail size={13} /> <a href={`mailto:${school.email}`}>{school.email}</a>
+          <Phone size={12} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a>
+          <b className="topcontact-dot">·</b>
+          <Mail size={12} /> <a href={`mailto:${school.email}`}>{school.email}</a>
         </span>
       </div>
     </div>
     <header className="header">
       <div className="shell navinner">
-        <Link href="/" className="brand" onClick={() => setOpen(false)}>
+        <Link href="/" className="brand" onClick={() => setOpen(false)} aria-label="Raniganj National Bidyapith">
           <SchoolLogo />
-          <span>
-            <strong>Raniganj National</strong>
-            <small>Bidyapith <i>Since 1999</i></small>
+          <span className="brand-copy">
+            <strong className="brand-name">Raniganj National Bidyapith</strong>
+            <small className="brand-desc">
+              <span>Secondary &amp; Residential</span>
+              <span className="brand-dot">·</span>
+              <i className="brand-est">Est. 1999</i>
+            </small>
           </span>
         </Link>
         <nav className="desktopnav" aria-label="Main navigation">
@@ -150,7 +157,7 @@ export function SiteHeader() {
 }
 
 export function Footer() { return <footer className="footer"><div className="shell footergrid">
-  <div><Link href="/" className="brand footerbrand"><SchoolLogo /><span><strong>Raniganj National</strong><small>Bidyapith <i>Since 1999</i></small></span></Link><p className="footeraddress"><MapPin size={16} /> {school.address}</p><p className="footercontact"><Phone size={15} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a></p><p className="footercontact"><Mail size={15} /> <a href={`mailto:${school.email}`}>{school.email}</a></p>
+  <div><Link href="/" className="brand footerbrand" aria-label="Raniganj National Bidyapith"><SchoolLogo /><span className="brand-copy"><strong className="brand-name">Raniganj National Bidyapith</strong><small className="brand-desc"><span>Secondary &amp; Residential</span><span className="brand-dot">·</span><i className="brand-est">Est. 1999</i></small></span></Link><p className="footeraddress"><MapPin size={16} /> {school.address}</p><p className="footercontact"><Phone size={15} /> <a href={`tel:${school.phone.replace(/[^\d+]/g, "")}`}>{school.phone}</a></p><p className="footercontact"><Mail size={15} /> <a href={`mailto:${school.email}`}>{school.email}</a></p>
   {school.socials.facebook && <div className="socials" style={{ marginTop: 15 }}><a aria-label="Facebook" href={school.socials.facebook} target="_blank" rel="noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></div>}
   </div>
   <div><h4>Families</h4><Link href="/admission">Admission</Link><Link href="/calendar">Academic calendar</Link><Link href="/downloads">Downloads</Link><Link href="/student-services">Student services</Link></div>
