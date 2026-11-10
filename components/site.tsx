@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Compass, Mail, MapPin, Menu, Phone, ShieldCheck, Users, X } from "lucide-react";
 import { events, notices, programs, values, type Notice } from "@/data/content";
 import { school } from "@/data/school";
+import { MomentsOnCampus } from "@/components/moments-gallery";
 
 const navItems = [["About", "/about"], ["Academics", "/academic"], ["Admission", "/admission"], ["Notices", "/notices"], ["Calendar", "/calendar"], ["Facilities", "/facilities"], ["People", "/teachers"], ["Contact", "/contact"]] as const;
 
@@ -55,10 +56,9 @@ function TypingText({ texts }: { texts: string[] }) {
   const [index, setIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const speed = isDeleting ? 50 : 100;
+  const speed = isDeleting ? 30 : 65;
 
   useEffect(() => {
-    console.log("TypingText running, displayText:", displayText);
     const handleTyping = () => {
       const currentFullText = texts[index % texts.length];
       if (isDeleting) {
@@ -68,10 +68,10 @@ function TypingText({ texts }: { texts: string[] }) {
       }
 
       if (!isDeleting && displayText === currentFullText) {
-        setTimeout(() => setIsDeleting(true), 2000);
+        setTimeout(() => setIsDeleting(true), 2400);
       } else if (isDeleting && displayText === "") {
         setIsDeleting(false);
-        setIndex(index + 1);
+        setIndex(i => i + 1);
       }
     };
 
@@ -326,7 +326,16 @@ export function HomePage() { return <>
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <p className="heromotto">{school.taglineBn}</p>
-          <p className="herotext">{school.description}</p>
+          <div className="herotext-box">
+            <p className="herotext-typing">
+              <TypingText texts={[
+                school.description,
+                "Nurturing intellect, character, and lifelong purpose since 1999.",
+                "Consistent 100% SSC pass record with distinguished alumni across Bangladesh.",
+                "The first dedicated residential & secondary boarding campus in Ghoraghat."
+              ]} />
+            </p>
+          </div>
         </motion.div>
         <motion.div 
           className="heroactions"
@@ -440,6 +449,10 @@ export function HomePage() { return <>
           </div>
         </div>
       </section>
+    </ScrollReveal>
+
+    <ScrollReveal direction="up">
+      <MomentsOnCampus />
     </ScrollReveal>
 
     <ScrollReveal direction="up">
